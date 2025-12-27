@@ -1,0 +1,57 @@
+version: "3"
+services:
+  zookeeper:
+    image: 'bitnamilegacy/zookeeper:3.7.0'
+    ports:
+      - '2181:2181'                # Zookeeper port for Kafka cluster coordination
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - document-streaming
+
+  kafka:
+    image: bitnamilegacy/kafka:2.8.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    networks:
+      - document-streaming
+
+  # spark:
+  #   image: 'jupyter/pyspark-notebook:spark-2'
+  #   ports:
+  #     - '8888:8888'                # Jupyter Notebook web interface
+  #     - '4040-4080:4040-4080'      # Spark UI ports (monitoring jobs)
+  #   volumes:
+  #     - ./ApacheSpark/:/home/jovyan/work   # Mount local folder for notebooks
+  #   networks:
+  #     - document-streaming
+  spark:
+    image: apache/spark:3.5.1
+    container_name: spark
+    environment:
+      - SPARK_MODE=master
+    volumes:
+      - ./ApacheSpark:/opt/spark-apps
+    networks:
+      - document-streaming
+
+
+  api-ingest:
+    image: 'api-ingest'
+    ports:
+      - '80:80'                    # FastAPI service (host:80 → container:80)
+    networks:
+      - document-streaming
+
+networks:
+  document-streaming:
+    driver: bridge                 # Custom bridge network for container communication
