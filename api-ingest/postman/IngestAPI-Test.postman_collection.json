@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "retailrocket-events-api",
+		"name": "Retailrocket-Events-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "View Event - Good",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"timestamp\": \"2015-06-02 09:02:12\",\n    \"visitorid\": 257597,\n    \"event\": \"view\",\n    \"itemid\": 355908,\n    \"transactionid\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/events",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["events"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add to Cart Event - Good",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"timestamp\": \"2015-06-02 10:15:30\",\n    \"visitorid\": 257597,\n    \"event\": \"addtocart\",\n    \"itemid\": 355908,\n    \"transactionid\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/events",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["events"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction Event - Good",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"timestamp\": \"2015-06-02 10:20:45\",\n    \"visitorid\": 257597,\n    \"event\": \"transaction\",\n    \"itemid\": 355908,\n    \"transactionid\": 12345\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/events",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["events"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Event - Invalid event type",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"timestamp\": \"2015-06-02 09:02:12\",\n    \"visitorid\": 257597,\n    \"event\": \"invalid_event\",\n    \"itemid\": 355908,\n    \"transactionid\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/events",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["events"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Event - Invalid visitorid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"timestamp\": \"2015-06-02 09:02:12\",\n    \"visitorid\": \"not_a_number\",\n    \"event\": \"view\",\n    \"itemid\": 355908,\n    \"transactionid\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/events",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["events"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Event - Missing required field",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"timestamp\": \"2015-06-02 09:02:12\",\n    \"visitorid\": 257597,\n    \"event\": \"view\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/events",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["events"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Batch Events",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"timestamp\": \"2015-06-02 09:02:12\",\n        \"visitorid\": 257597,\n        \"event\": \"view\",\n        \"itemid\": 355908,\n        \"transactionid\": null\n    },\n    {\n        \"timestamp\": \"2015-06-02 09:05:30\",\n        \"visitorid\": 257597,\n        \"event\": \"addtocart\",\n        \"itemid\": 355908,\n        \"transactionid\": null\n    },\n    {\n        \"timestamp\": \"2015-06-02 09:10:45\",\n        \"visitorid\": 257597,\n        \"event\": \"transaction\",\n        \"itemid\": 355908,\n        \"transactionid\": 67890\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/events/batch",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["events", "batch"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/health",
+					"host": ["localhost"],
+					"port": "8000",
+					"path": ["health"]
+				}
+			},
+			"response": []
+		}
+	]
+}
